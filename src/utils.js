@@ -7,6 +7,16 @@
  */
 import differenceInDays from 'date-fns/differenceInDays';
 
+export function formatVariantText(variant) {
+  if (variant === 'on-sale') {
+    return 'Sale';
+  }
+  if (variant === 'new-release') {
+    return 'Just Released!';
+  }
+  return variant;
+}
+
 export function formatPrice(price) {
   return `$${price / 100}`;
 }
