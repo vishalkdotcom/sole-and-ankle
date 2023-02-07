@@ -41,38 +41,27 @@ const ShoeCard = ({
       <Wrapper>
         <ImageWrapper>
           <Image alt='' src={imageSrc} />
+          {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
+          {variant === 'new-release' && <NewFlag>Just released!</NewFlag>}
         </ImageWrapper>
-        {variant !== 'default' && (
-          <Badge
-            style={{
-              '--background-color':
-                variant === 'on-sale' ? COLORS.primary : COLORS.secondary,
-            }}
-          >
-            {formatVariantText(variant)}
-          </Badge>
-        )}
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
           <Price
-            style={
-              variant === 'on-sale'
-                ? {
-                    '--color': COLORS.gray[500],
-                    '--text-decoration': 'line-through',
-                  }
-                : {}
-            }
+            style={{
+              '--color': variant === 'on-sale' ? COLORS.gray[500] : undefined,
+              '--text-decoration':
+                variant === 'on-sale' ? 'line-through' : undefined,
+            }}
           >
             {formatPrice(price)}
           </Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
-          {variant === 'on-sale' && (
+          {variant === 'on-sale' ? (
             <SalePrice>{formatPrice(salePrice)}</SalePrice>
-          )}
+          ) : undefined}
         </Row>
       </Wrapper>
     </Link>
@@ -82,38 +71,23 @@ const ShoeCard = ({
 const Link = styled.a`
   text-decoration: none;
   color: inherit;
-  flex: 1 0 344px;
 `;
 
-const Wrapper = styled.article`
-  position: relative;
-`;
-
-const Badge = styled.span`
-  display: inline-block;
-  position: absolute;
-  right: -4px;
-  top: 12px;
-  padding: 10px 8px;
-  color: ${COLORS.white};
-  border-radius: 2px;
-  font-size: ${14 / 16}rem;
-  font-weight: 700;
-  background: var(--background-color);
-`;
+const Wrapper = styled.article``;
 
 const ImageWrapper = styled.div`
   position: relative;
 `;
 
 const Image = styled.img`
-  max-width: 100%;
+  width: 100%;
+  border-radius: 16px 16px 4px 4px;
 `;
 
 const Row = styled.div`
+  font-size: 1rem;
   display: flex;
   justify-content: space-between;
-  font-size: 1rem;
 `;
 
 const Name = styled.h3`
@@ -133,6 +107,28 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
+`;
+
+const Flag = styled.span`
+  position: absolute;
+  top: 12px;
+  right: -4px;
+  height: 32px;
+  padding: 0 10px;
+  font-size: ${14 / 16}rem;
+  font-weight: ${WEIGHTS.bold};
+  line-height: 32px;
+  border-radius: 2px;
+  color: ${COLORS.white};
+`;
+
+const SaleFlag = styled(Flag)`
+  background-color: ${COLORS.primary};
+`;
+
+const NewFlag = styled(Flag)`
+  background-color: ${COLORS.secondary};
+  color: ${COLORS.white};
 `;
 
 export default ShoeCard;
